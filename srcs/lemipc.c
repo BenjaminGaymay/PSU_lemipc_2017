@@ -63,25 +63,23 @@ void add_player(char *map, t_player *player, const size_t team_number)
 	map[CHARPOS(x, y)] = team_number + 48;
 }
 
-t_player create_player(const size_t team_number, const int shm_id,
-		const int sem_id, struct sembuf sops)
+t_player create_player(const size_t team_number, t_id *id)
 {
 	t_player player;
 	char *map;
 
-	sops.sem_op = -1;
+	id->sops.sem_op = -1;
 
-	while (semctl(sem_id, 0, GETVAL) == 0) {
+	while (semctl(id->sem_id, 0, GETVAL) == 0) {
 		usleep(10000); // recherche toussa toussa
-		printf("Wait..\n");
 	}
-	semop(sem_id, &sops, 1); // Je prend le controle
+	semop(id->sem_id, &id->sops, 1); // Je prend le controle
 
-	map = (char *)shmat(shm_id, NULL, SHM_R | SHM_W) + 1;
+	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 	add_player(map, &player, team_number);
 
-	sops.sem_op = 1;
-	semop(sem_id, &sops, 1); // Je redonne le controle
+	id->sops.sem_op = 1;
+	semop(id->sem_id, &id->sops, 1); // Je redonne le controle
 	return (player);
 }
 
@@ -96,67 +94,20 @@ void move_player(char *map, t_player *player, const int x, const int y)
 	printf("%ld [%d, %d]\n", player->team, player->x, player->y);
 }
 
-int player_loop(t_player *player, const int shm_id,
-		const int sem_id, struct sembuf sops)
+int player_loop(t_player *player, t_id *id)
 {
 	char *map;
 
-	sops.sem_op = -1;
-	while (semctl(sem_id, 0, GETVAL) == 0) {
+	id->sops.sem_op = -1;
+	while (semctl(id->sem_id, 0, GETVAL) == 0) {
 		usleep(10000); // recherche toussa toussa
-		printf("Wait..\n");
 	}
-	semop(sem_id, &sops, 1); // Je prend le controle
+	semop(id->sem_id, &id->sops, 1); // Je prend le controle
 
-	map = (char *)shmat(shm_id, NULL, SHM_R | SHM_W) + 1;
+	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 	move_player(map, player, player->x, player->y + 1);
-	sops.sem_op = 1;
-	semop(sem_id, &sops, 1); // Je redonne le controle
-	return (SUCCESS);
-}
-
-void delete_player(t_player *player, const int shm_id,
-		const int sem_id, struct sembuf sops)
-{
-	char *map;
-
-	sops.sem_op = -1;
-	while (semctl(sem_id, 0, GETVAL) == 0) {
-		usleep(10000); // recherche toussa toussa
-		printf("Wait..\n");
-	}
-	semop(sem_id, &sops, 1); // Je prend le controle
-
-	map = (char *)shmat(shm_id, NULL, SHM_R | SHM_W) + 1;
-
-	map[CHARPOS(player->x, player->y)] = ' ';
-
-	sops.sem_op = 1;
-	semop(sem_id, &sops, 1); // Je redonne le controle
-}
-
-int player(const key_t key, const size_t team_number)
-{
-	int shm_id;
-	int sem_id;
-	struct sembuf sops;
-	t_player player;
-
-	shm_id = shmget(key, MALLOC_MAP, SHM_R | SHM_W); // Get SHM
-	sem_id = semget(key, 0, SHM_R | SHM_W); // Get SEM
-
-	sops.sem_num = 0;
-	sops.sem_flg = 0;
-
-	player = create_player(team_number, shm_id, sem_id, sops);
-
-	while (player.y + 1 < MAP_SIZE) {
-		player_loop(&player, shm_id, sem_id, sops);
-		usleep(100000);
-	}
-	delete_player(&player, shm_id, sem_id, sops);
-	printf("Quit\n");
-	//shmctl(shm_id, IPC_RMID, NULL); // Je delete SHM
+	id->sops.sem_op = 1;
+	semop(id->sem_id, &id->sops, 1); // Je redonne le controle
 	return (SUCCESS);
 }
 
@@ -170,14 +121,73 @@ int nb_team_alive(const char *map)
 	return (nb_team);
 }
 
+void send_msg(const size_t team, const char *to_send, t_id *id)
+{
+	bzero(&id->msg, sizeof(id->msg));
+	id->msg.mtype = team;
+	sprintf(id->msg.str, to_send);
+	msgsnd(id->msg_id, &id->msg, sizeof(id->msg), 0);
+}
+
+void delete_player(t_player *player, t_id *id)
+{
+	char *map;
+
+	id->sops.sem_op = -1;
+	while (semctl(id->sem_id, 0, GETVAL) == 0) {
+		usleep(10000); // recherche toussa toussa
+	}
+
+	semop(id->sem_id, &id->sops, 1); // Je prend le controle
+
+	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
+
+	map[CHARPOS(player->x, player->y)] = ' ';
+	if (nb_team_alive(map) == 1) {
+		send_msg(HOST_ID, "quit", id);
+		return ;
+	}
+
+	id->sops.sem_op = 1;
+	semop(id->sem_id, &id->sops, 1); // Je redonne le controle
+}
+
+int player(const key_t key, const size_t team_number)
+{
+	t_id id;
+	t_player player;
+
+	id.shm_id = shmget(key, MALLOC_MAP, SHM_R | SHM_W); // Get SHM
+	id.sem_id = semget(key, 0, SHM_R | SHM_W); // Get SEM
+	id.msg_id = msgget(key, SHM_R | SHM_W);
+
+	id.sops.sem_num = 0;
+	id.sops.sem_flg = 0;
+
+	player = create_player(team_number, &id);
+
+	while (player.y + 1 < MAP_SIZE) {
+		player_loop(&player, &id);
+		msgrcv(id.msg_id, &id.msg, sizeof(id.msg), player.team, IPC_NOWAIT);
+		if (strcmp(id.msg.str, "quit") == 0)
+			break ;
+		usleep(100000);
+	}
+	delete_player(&player, &id);
+	return (SUCCESS);
+}
+
 int host(const key_t key)
 {
 	int shm_id;
 	int sem_id;
+	int msg_id;
+	t_msg msg;
 	char *map;
 
 	shm_id = shmget(key, MALLOC_MAP, IPC_CREAT | SHM_R | SHM_W); // Create SHM
 	sem_id = semget(key, 1, IPC_CREAT | SHM_R | SHM_W); // Create SEM
+	msg_id = msgget(key, IPC_CREAT | SHM_R | SHM_W); // Create MSG
 	semctl(sem_id, 0, SETVAL, 1); // Init SEM
 
 	map = create_map((char *)shmat(shm_id, NULL, SHM_R | SHM_W)); // Get SHM
@@ -185,8 +195,14 @@ int host(const key_t key)
 	while (1) {
 		system("clear");
 		show_map(map);
+		msgrcv(msg_id, &msg, sizeof(msg), HOST_ID, IPC_NOWAIT);
+		if (strcmp(msg.str, "quit") == 0)
+			break ;
 		usleep(100000);
 	}
+	shmctl(shm_id, IPC_RMID, NULL);
+	semctl(sem_id, IPC_RMID, 0, NULL);
+	msgctl(msg_id, IPC_RMID, NULL);
 	return (SUCCESS);
 }
 

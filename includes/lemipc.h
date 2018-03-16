@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <sys/shm.h>
 #include <sys/sem.h>
+#include <sys/msg.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -36,6 +37,8 @@
 
 # define NONE -1
 
+# define HOST_ID sizeof(char)
+
 typedef struct s_player {
 	int x;
 	int y;
@@ -43,3 +46,16 @@ typedef struct s_player {
 	int target_y;
 	size_t team;
 } t_player;
+
+typedef struct s_msg {
+	long int mtype;
+	char str[32];
+} t_msg;
+
+typedef struct s_id {
+	int shm_id;
+	int sem_id;
+	int msg_id;
+	struct sembuf sops;
+	t_msg msg;
+} t_id;
