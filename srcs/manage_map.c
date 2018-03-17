@@ -40,6 +40,7 @@ int nb_team_alive(const char *map)
 	int nb_team = 0;
 
 	for (size_t i = 0 ; map[i] ; i++)
-		nb_team = (map[i] != ' ' && map[i] != '\n' ? nb_team + 1 : nb_team);
+		nb_team = (map[i] != ' ' &&
+			map[i] != '\n' ? nb_team + 1 : nb_team);
 	return (nb_team);
 }

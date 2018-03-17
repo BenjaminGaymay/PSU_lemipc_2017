@@ -25,7 +25,8 @@ int player_loop(t_player *player, t_id *id)
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		move_player(map, player, player->x, player->y + 1);
-		if (receive_message(id->msg_id, &id->msg, player->team, "quit") == SUCCESS)
+		if (receive_message(id->msg_id, &id->msg,
+				player->team, "quit") == SUCCESS)
 			return (give_rights(id), EXIT);
 		give_rights(id);
 		usleep(100000);
