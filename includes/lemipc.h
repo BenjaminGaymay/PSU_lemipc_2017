@@ -23,6 +23,7 @@
 # define SUCCESS 0
 # define FAILURE 1
 # define ERROR 84
+# define EXIT 1
 
 # define TRUE 1
 # define FALSE 0
@@ -59,3 +60,42 @@ typedef struct s_id {
 	struct sembuf sops;
 	t_msg msg;
 } t_id;
+
+/*
+** manage_map
+*/
+char *create_map(char *);
+void show_map(const char *);
+size_t last_team_alive(const char *);
+int nb_team_alive(const char *);
+
+/*
+** semaphore_basics
+*/
+int get_rights(t_id *id);
+void give_rights(t_id *);
+int receive_message(const int, t_msg *, const int, const char *);
+void send_msg(const size_t, const char *, t_id *);
+
+/*
+** basics
+*/
+int is_number(const char *);
+int print_help(int);
+int print_error(const char *, const int);
+
+/*
+** host
+*/
+int host(const key_t);
+
+/*
+** player
+*/
+int player(const key_t, const size_t);
+
+/*
+** add_remove_player
+*/
+t_player create_player(const size_t, t_id *);
+void delete_player(t_player *, t_id *);
