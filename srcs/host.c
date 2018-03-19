@@ -34,8 +34,8 @@ int host_loop(t_id *id)
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		show_map(map);
 		give_rights(id);
-		if (receive_message(id->msg_id, &id->msg,
-				HOST_ID, "quit") == SUCCESS)
+		receive_message(id->msg_id, &id->msg, HOST_ID);
+		if (strcmp(id->msg.str, "quit") == 0)
 			return (quit_loop(id));
 		usleep(100000);
 	}

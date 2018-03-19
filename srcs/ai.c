@@ -7,22 +7,28 @@
 
 #include "lemipc.h"
 
-t_pos move_to(t_player *p)
+int get_new_pos(int player, int target)
 {
-	t_pos pos;
+	if (player < target)
+		return (player + 1);
+	else if (player > target)
+		return (player - 1);
+	return (player);
+}
 
-	pos.x = p->pos.x;
-	pos.y = p->pos.y;
-	if (p->pos.x < p->target.x)
-		pos.x++;
-	else if (p->pos.x > p->target.x)
-		pos.x--;
-	if (p->pos.y < p->target.y && pos.x == p->pos.x)
-		pos.y++;
-	else if (p->pos.y > p->target.y && pos.x == p->pos.x)
-		pos.y--;
+t_pos move_to(t_player *player, const char *map)
+{
+	t_pos npos;
 
-	return (pos);
+	if (player->target.x == NONE || player->target.y == NONE)
+		return (player->pos);
+	memcpy(&npos, &player->pos, sizeof(npos));
+	npos.x = get_new_pos(player->pos.x, player->target.x);
+	if (npos.x == player->pos.x)
+		npos.y = get_new_pos(player->pos.y, player->target.y);
+	if (map[CHARPOS(npos.x, npos.y)] != ' ')
+		npos.y = get_new_pos(player->pos.y, player->target.y);
+	return (npos);
 }
 
 size_t manhattan_dist(t_pos *p1, t_pos *p2)
