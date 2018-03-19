@@ -29,7 +29,7 @@ int host_loop(t_id *id)
 	char *map;
 
 	while (1) {
-		system("clear");
+		// system("clear");
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		show_map(map);

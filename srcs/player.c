@@ -22,17 +22,17 @@ int player_loop(t_player *player, t_id *id)
 	char *map;
 	t_pos pos;
 
-	while (player->pos.y + 1 < MAP_SIZE) {
+	while (1) {
 		if (receive_message(id->msg_id, &id->msg,
 				player->team, "quit") == SUCCESS)
 			return (EXIT);
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
+		if (count_neighbors(map, player) >= 2)
+			return (give_rights(id), EXIT);
 		pos = look_ennemy(map, player);
 		memcpy(&player->target, &pos, sizeof(pos));
 		move_player(map, player, move_to(player));
-		if (count_neighbors(map, player) >= 2)
-			break;
 		if (receive_message(id->msg_id, &id->msg,
 				player->team, "quit") == SUCCESS)
 			return (give_rights(id), EXIT);
