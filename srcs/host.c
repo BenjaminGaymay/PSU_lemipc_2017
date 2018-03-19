@@ -19,7 +19,7 @@ int quit_loop(t_id *id)
 		else
 			send_msg(last_team_alive(map) - 48, "quit", id);
 		give_rights(id);
-		usleep(rand() % 100000);
+		usleep(10000);
 	}
 	return (SUCCESS);
 }
@@ -29,7 +29,7 @@ int host_loop(t_id *id)
 	char *map;
 
 	while (1) {
-		// system("clear");
+		system("clear");
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		show_map(map);

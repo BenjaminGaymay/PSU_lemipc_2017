@@ -31,7 +31,6 @@ void add_player(char *map, t_player *player, const size_t team_number)
 		x = rand() % MAP_SIZE;
 		y = rand() % MAP_SIZE;
 	}
-	usleep(rand() % 5432 + 5432);
 	player->pos.x = x;
 	player->pos.y = y;
 	player->target.x = NONE;

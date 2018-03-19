@@ -20,19 +20,23 @@ void move_player(char *map, t_player *player, const t_pos pos)
 int player_loop(t_player *player, t_id *id)
 {
 	char *map;
+	int i = 0;
 
 	while (1) {
 		receive_message(id->msg_id, &id->msg, player->team);
 		if (strcmp(id->msg.str, "quit") == 0)
 			return (EXIT);
 		get_rights(id);
+		if (i % 50 == 0)
+			printf("Player [%ld] alive : %d, %d -> %d, %d\n", player->team, player->pos.x, player->pos.y, player->target.x, player->target.y);
+		i++;
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		if (count_neighbors(map, player) >= 2)
 			return (give_rights(id), EXIT);
 		get_target(player, id, &player->target, map);
 		move_player(map, player, move_to(player, map));
 		give_rights(id);
-		usleep(rand() % 1000000);
+		usleep(100000);
 	}
 	return (SUCCESS);
 }
