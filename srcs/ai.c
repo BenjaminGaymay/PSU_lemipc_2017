@@ -77,7 +77,5 @@ size_t count_neighbors(const char *map, const t_player *player)
 				neighbors++;
 		}
 	}
-	if (neighbors != 0)
-		printf("voisinsin : %ld\n", neighbors);
 	return (neighbors);
 }
