@@ -73,8 +73,9 @@ size_t count_neighbors(const char *map, const t_player *player)
 			if (within_map(player->pos, x, y) &&
 				(size_t)(map[CHARPOS(x, y)] - 48) != player->team &&
 				map[CHARPOS(x, y)] != ' ' &&
-				map[CHARPOS(x, y)] != '\n')
-				neighbors++;
+				map[CHARPOS(x, y)] != '\n') {
+				neighbors += 1;
+			}
 		}
 	}
 	if (neighbors != 0)
