@@ -18,7 +18,8 @@ SRCS	= ./srcs/add_remove_player.c	\
 	  ./srcs/manage_map.c		\
 	  ./srcs/player.c		\
 	  ./srcs/semaphore_basics.c	\
-	  ./srcs/ia.c
+	  ./srcs/ia.c			\
+	  ./srcs/strategy.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -34,8 +34,8 @@ void add_player(char *map, t_player *player, const size_t team_number)
 	usleep(rand() % 5432 + 5432);
 	player->pos.x = x;
 	player->pos.y = y;
-	player->target.x = 29;
-	player->target.y = 29;
+	player->target.x = NONE;
+	player->target.y = NONE;
 	player->team = team_number;
 	map[CHARPOS(x, y)] = team_number + 48;
 }

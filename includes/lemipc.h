@@ -78,7 +78,7 @@ int nb_team_alive(const char *);
 */
 int get_rights(t_id *id);
 void give_rights(t_id *);
-int receive_message(const int, t_msg *, const int, const char *);
+char *receive_message(const int, t_msg *, const int);
 void send_msg(const size_t, const char *, t_id *);
 
 /*
@@ -105,8 +105,14 @@ t_player create_player(const size_t, t_id *);
 void delete_player(t_player *, t_id *);
 
 /*
-** IA PROTO
+** ai
 */
-t_pos move_to(t_player *);
+t_pos move_to(t_player *, const char *);
 t_pos look_ennemy(const char *, t_player *);
 size_t count_neighbors(const char *, const t_player *);
+
+
+/*
+** strategy
+*/
+void get_target(t_player *, t_id *, t_pos *, const char *);

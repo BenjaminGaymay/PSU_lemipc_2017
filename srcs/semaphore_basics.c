@@ -23,14 +23,13 @@ void give_rights(t_id *id)
 	semop(id->sem_id, &id->sops, 1);
 }
 
-int receive_message(const int msg_id, t_msg *msg, const int team,
-			const char *request)
+char *receive_message(const int msg_id, t_msg *msg, const int team)
 {
 	bzero(msg, sizeof(*msg));
 	msgrcv(msg_id, msg, sizeof(*msg), team, IPC_NOWAIT);
 	if (strcmp(msg->str, "") != 0)
-		printf("Message reçu : '%s'\n", msg->str);
-	return (strcmp(msg->str, request) == 0 ? SUCCESS : FAILURE);
+		printf("Message reçu [%ld]: '%s'\n", msg->mtype, msg->str);
+	return (msg->str);
 }
 
 void send_msg(const size_t team, const char *to_send, t_id *id)
