@@ -22,7 +22,7 @@ int player_loop(t_player *player, t_id *id)
 	char *map;
 	t_pos pos;
 
-	while (player->y + 1 < MAP_SIZE) {
+	while (player->pos.y + 1 < MAP_SIZE) {
 		if (receive_message(id->msg_id, &id->msg,
 				player->team, "quit") == SUCCESS)
 			return (EXIT);
