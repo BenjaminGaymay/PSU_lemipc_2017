@@ -11,13 +11,14 @@ CC	= gcc -g3
 
 RM	= rm -f
 
-SRCS	= ./srcs/add_remove_player.c \
-	  ./srcs/basics.c \
-	  ./srcs/host.c \
-	  ./srcs/lemipc.c \
-	  ./srcs/manage_map.c \
-	  ./srcs/player.c \
-	  ./srcs/semaphore_basics.c
+SRCS	= ./srcs/add_remove_player.c	\
+	  ./srcs/basics.c		\
+	  ./srcs/host.c			\
+	  ./srcs/lemipc.c		\
+	  ./srcs/manage_map.c		\
+	  ./srcs/player.c		\
+	  ./srcs/semaphore_basics.c	\
+	  ./srcs/ia.c
 
 OBJS	= $(SRCS:.c=.o)
 

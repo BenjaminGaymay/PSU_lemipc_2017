@@ -7,19 +7,20 @@
 
 #include "lemipc.h"
 
-void move_player(char *map, t_player *player, const int x, const int y)
+void move_player(char *map, t_player *player, const t_pos pos)
 {
-	if (map[CHARPOS(x, y)] == ' ') {
-		map[CHARPOS(player->x, player->y)] = ' ';
-		map[CHARPOS(x, y)] = player->team + 48;
-		player->x = x;
-		player->y = y;
+	if (map[CHARPOS(pos.x, pos.y)] == ' ') {
+		map[CHARPOS(player->pos.x, player->pos.y)] = ' ';
+		map[CHARPOS(pos.x, pos.y)] = player->team + 48;
+		player->pos.x = pos.x;
+		player->pos.y = pos.y;
 	}
 }
 
 int player_loop(t_player *player, t_id *id)
 {
 	char *map;
+	t_pos pos;
 
 	while (player->y + 1 < MAP_SIZE) {
 		if (receive_message(id->msg_id, &id->msg,
@@ -27,7 +28,14 @@ int player_loop(t_player *player, t_id *id)
 			return (EXIT);
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
-		move_player(map, player, player->x, player->y + 1);
+		pos = look_ennemy(map, player);
+		memcpy(&player->target, &pos, sizeof(pos));
+		move_player(map, player, move_to(player));
+		if (count_neighbors(map, player) >= 2)
+			break;
+		if (receive_message(id->msg_id, &id->msg,
+				player->team, "quit") == SUCCESS)
+			return (give_rights(id), EXIT);
 		give_rights(id);
 		usleep(rand() % 1000000);
 	}

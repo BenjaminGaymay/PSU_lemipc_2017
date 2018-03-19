@@ -41,11 +41,14 @@
 # define HOST_ID 255
 # define MSG_COPY 040000
 
-typedef struct s_player {
+typedef struct s_pos {
 	int x;
 	int y;
-	int target_x;
-	int target_y;
+} t_pos;
+
+typedef struct s_player {
+	t_pos pos;
+	t_pos target;
 	size_t team;
 } t_player;
 
@@ -100,3 +103,10 @@ int player(const key_t, const size_t);
 */
 t_player create_player(const size_t, t_id *);
 void delete_player(t_player *, t_id *);
+
+/*
+** IA PROTO
+*/
+t_pos move_to(t_player *);
+t_pos look_ennemy(const char *, t_player *);
+size_t count_neighbors(const char *, const t_player *);
