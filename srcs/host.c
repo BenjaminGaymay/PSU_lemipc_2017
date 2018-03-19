@@ -7,9 +7,27 @@
 
 #include "lemipc.h"
 
+int quit_loop(t_id *id)
+{
+	char *map;
+
+	while (1) {
+		get_rights(id);
+		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
+		if (nb_team_alive(map) == 0)
+			break ;
+		else
+			send_msg(last_team_alive(map) - 48, "quit", id);
+		give_rights(id);
+		usleep(rand() % 100000);
+	}
+	return (SUCCESS);
+}
+
 int host_loop(t_id *id)
 {
 	char *map;
+
 	while (1) {
 		system("clear");
 		get_rights(id);
@@ -17,10 +35,8 @@ int host_loop(t_id *id)
 		show_map(map);
 		give_rights(id);
 		if (receive_message(id->msg_id, &id->msg,
-				HOST_ID, "quit") == SUCCESS) {
-			usleep(100000);
-			return (SUCCESS);
-		}
+				HOST_ID, "quit") == SUCCESS)
+			return (quit_loop(id));
 		usleep(100000);
 	}
 	return (SUCCESS);
@@ -38,9 +54,8 @@ int host(const key_t key)
 	create_map((char *)shmat(id.shm_id, NULL, SHM_R | SHM_W));
 	semctl(id.sem_id, 0, SETVAL, 1);
 	host_loop(&id);
-	shmctl(id.shm_id, IPC_RMID, NULL);
-	semctl(id.sem_id, IPC_RMID, 0, NULL);
 	msgctl(id.msg_id, IPC_RMID, NULL);
-	printf("Je quitte normalement, ca segv sur un return 0 c'est super cool omg\n");
-	return (SUCCESS);
+	semctl(id.sem_id, IPC_RMID, 0, NULL);
+	shmctl(id.shm_id, IPC_RMID, NULL);
+	exit(SUCCESS); // POURQUOI ?!
 }

@@ -22,14 +22,14 @@ int player_loop(t_player *player, t_id *id)
 	char *map;
 
 	while (player->y + 1 < MAP_SIZE) {
+		if (receive_message(id->msg_id, &id->msg,
+				player->team, "quit") == SUCCESS)
+			return (EXIT);
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		move_player(map, player, player->x, player->y + 1);
-		if (receive_message(id->msg_id, &id->msg,
-				player->team, "quit") == SUCCESS)
-			return (give_rights(id), EXIT);
 		give_rights(id);
-		usleep(100000);
+		usleep(rand() % 1000000);
 	}
 	return (SUCCESS);
 }
@@ -45,7 +45,7 @@ int player(const key_t key, const size_t team_number)
 	id.sops.sem_num = 0;
 	id.sops.sem_flg = 0;
 	player = create_player(team_number, &id);
-	if (player_loop(&player, &id) == SUCCESS)
-		delete_player(&player, &id);
+	player_loop(&player, &id);
+	delete_player(&player, &id);
 	return (SUCCESS);
 }

@@ -38,7 +38,8 @@
 
 # define NONE -1
 
-# define HOST_ID sizeof(char)
+# define HOST_ID 255
+# define MSG_COPY 040000
 
 typedef struct s_player {
 	int x;

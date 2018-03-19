@@ -7,7 +7,7 @@
 
 #include "lemipc.h"
 
-int init_lemipc(const char *path, const size_t team_number)
+int init_lemipc(const char *path, size_t team_number)
 {
 	key_t key;
 	int shm_id;
@@ -17,10 +17,8 @@ int init_lemipc(const char *path, const size_t team_number)
 		return (print_error("Error : ftok failed", ERROR));
 	shm_id = shmget(key, MALLOC_MAP, SHM_R | SHM_W);
 	if (shm_id == SHM_ERROR)
-		host(key);
-	else
-		player(key, team_number);
-	return (SUCCESS);
+		return (host(key));
+	return (player(key, team_number));
 }
 
 int main(const int ac, const char **av)

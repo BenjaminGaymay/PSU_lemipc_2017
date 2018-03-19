@@ -28,6 +28,8 @@ int receive_message(const int msg_id, t_msg *msg, const int team,
 {
 	bzero(msg, sizeof(*msg));
 	msgrcv(msg_id, msg, sizeof(*msg), team, IPC_NOWAIT);
+	if (strcmp(msg->str, "") != 0)
+		printf("Message reçu : '%s'\n", msg->str);
 	return (strcmp(msg->str, request) == 0 ? SUCCESS : FAILURE);
 }
 
@@ -37,4 +39,5 @@ void send_msg(const size_t team, const char *to_send, t_id *id)
 	id->msg.mtype = team;
 	sprintf(id->msg.str, to_send);
 	msgsnd(id->msg_id, &id->msg, sizeof(id->msg), 0);
+	printf("Je dis à %ld de : '%s'\n", team, id->msg.str);
 }

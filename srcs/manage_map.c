@@ -11,6 +11,7 @@ char *create_map(char *map)
 {
 	for (size_t i = 0 ; i < MALLOC_MAP ; i++)
 		map[i] = (i % (MAP_SIZE + 1) == 0 ? '\n' : ' ');
+	map[MALLOC_MAP] = '\0';
 	return (&map[1]);
 }
 
@@ -38,9 +39,13 @@ size_t last_team_alive(const char *map)
 int nb_team_alive(const char *map)
 {
 	int nb_team = 0;
+	char prev_team = 0;
 
-	for (size_t i = 0 ; map[i] ; i++)
-		nb_team = (map[i] != ' ' &&
-			map[i] != '\n' ? nb_team + 1 : nb_team);
+	for (size_t i = 0 ; map[i] ; i++) {
+		if (map[i] != ' ' && map[i] != '\n' && prev_team != map[i]) {
+			nb_team++;
+			prev_team = map[i];
+		}
+	}
 	return (nb_team);
 }

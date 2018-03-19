@@ -14,11 +14,12 @@ void delete_player(t_player *player, t_id *id)
 	get_rights(id);
 	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 	map[CHARPOS(player->x, player->y)] = ' ';
-	give_rights(id);
-	if (nb_team_alive(map) == 1) {
-		send_msg(last_team_alive(map) - 48, "quit", id);
-		return send_msg(HOST_ID, "quit", id);
+	printf("'%ld': je suis mort en [%d, %d]\n", player->team, player->x, player->y);
+	if (player->team != last_team_alive(map) - 48 && nb_team_alive(map) == 1) {
+		give_rights(id);
+		return (send_msg(HOST_ID, "quit", id));
 	}
+	give_rights(id);
 }
 
 void add_player(char *map, t_player *player, const size_t team_number)

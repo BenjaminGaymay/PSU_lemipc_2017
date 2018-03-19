@@ -7,7 +7,7 @@
 
 NAME	= lemipc
 
-CC	= gcc
+CC	= gcc -g3
 
 RM	= rm -f
 
