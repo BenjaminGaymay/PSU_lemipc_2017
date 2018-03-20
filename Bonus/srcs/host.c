@@ -30,7 +30,8 @@ int host_loop(t_id *id)
 
 	init_window();
 	while (1) {
-		manage_event();
+		if (manage_event() == EXIT)
+			return (quit_loop(id));
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		clear_window();

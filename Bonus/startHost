@@ -1,7 +1,3 @@
 #!/bin/bash
 
 ./lemipc "$PWD" 0
-
-if [ "$(./clearIpcs)" != "" ]; then
-    echo "IPCS wasn't clear"
-fi

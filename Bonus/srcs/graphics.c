@@ -108,17 +108,26 @@ void draw_array(const char *array)
 	}
 }
 
+int key(const int key)
+{
+	if (key == SDLK_ESCAPE)
+		return (EXIT);
+	return (SUCCESS);
+}
 
-void manage_event()
+int manage_event()
 {
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
 		switch(event.type) {
+			case SDL_KEYUP:
+				return (key(event.key.keysym.sym));
 			case SDL_QUIT:
-				exit(0); break;
+				return (EXIT);
 		}
 	}
+	return (SUCCESS);
 }
 
 void clear_window()

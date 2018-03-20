@@ -132,7 +132,7 @@ void get_target(t_player *, t_id *, t_pos *, const char *);
 ** graphics
 */
 void draw_array(const char *);
-void manage_event();
+int manage_event();
 void clear_window();
 void draw_arena();
 void init_window();
