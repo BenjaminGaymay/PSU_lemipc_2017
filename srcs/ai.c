@@ -16,6 +16,19 @@ int get_new_pos(int player, int target)
 	return (player);
 }
 
+t_pos find_new_pos(const char *map, t_pos *pos)
+{
+	if (map[CHARPOS(pos->x+1, pos->y)] == ' ')
+		pos->x++;
+	else if (map[CHARPOS(pos->x-1, pos->y)] == ' ')
+		pos->x--;
+	else if ((map[CHARPOS(pos->x, pos->y+1)] == ' '))
+		pos->y++;
+	else if ((map[CHARPOS(pos->x, pos->y-1)] == ' '))
+		pos->y--;
+	return (*pos);
+}
+
 t_pos move_to(t_player *player, const char *map)
 {
 	t_pos npos;
@@ -26,10 +39,8 @@ t_pos move_to(t_player *player, const char *map)
 	npos.x = get_new_pos(player->pos.x, player->target.x);
 	if (npos.x == player->pos.x)
 		npos.y = get_new_pos(player->pos.y, player->target.y);
-	if (map[CHARPOS(npos.x, npos.y)] != ' ') {
-		npos.y++;
-		npos.x++;
-	}
+	if (map[CHARPOS(npos.x, npos.y)] != ' ')
+		npos = find_new_pos(map, &npos);
 	return (npos);
 }
 
