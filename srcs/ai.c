@@ -26,8 +26,10 @@ t_pos move_to(t_player *player, const char *map)
 	npos.x = get_new_pos(player->pos.x, player->target.x);
 	if (npos.x == player->pos.x)
 		npos.y = get_new_pos(player->pos.y, player->target.y);
-	if (map[CHARPOS(npos.x, npos.y)] != ' ')
-		npos.y = get_new_pos(player->pos.y, player->target.y);
+	if (map[CHARPOS(npos.x, npos.y)] != ' ') {
+		npos.y++;
+		npos.x++;
+	}
 	return (npos);
 }
 
@@ -36,7 +38,7 @@ size_t manhattan_dist(t_pos *p1, t_pos *p2)
 	return abs(p1->x + p2->x) - abs(p1->y + p2->y);
 }
 
-t_pos look_ennemy(const char *map, t_player *p)
+t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 {
 	t_pos pos;
 	t_pos ennemy = {-1, -1};
@@ -44,18 +46,28 @@ t_pos look_ennemy(const char *map, t_player *p)
 	int dist;
 
 	for (size_t i = 0; map[i] ; i++) {
-		if (map[i] != ' '  && map[i] != '\n' && (size_t)(map[i] - 48) != p->team) {
+		if (map[i] != ' '  && map[i] != '\n' && (size_t)(map[i] - 48) != team) {
 			pos.x = i % (MAP_SIZE + 1);
 			pos.y = i / (MAP_SIZE + 1);
-			dist = manhattan_dist(&pos, &p->pos);
+			dist = manhattan_dist(&pos, p);
 			if (dist < min || min == -1) {
 				min = dist;
 				memcpy(&ennemy, &pos, sizeof(pos));
 			}
 		}
 	}
-	return ennemy;
+	return (ennemy);
 }
+
+// t_pos dfs(t_pos *target, t_pos *start)
+// {
+// 	t_pos pos;
+
+// 	if (start->x == target->x && start->y == target->y)
+// 		return (*start);
+
+// 	return (pos);
+// }
 
 static bool within_map(const t_pos pos, const int x, const int y)
 {

@@ -109,7 +109,7 @@ void delete_player(t_player *, t_id *);
 ** ai
 */
 t_pos move_to(t_player *, const char *);
-t_pos look_ennemy(const char *, t_player *);
+t_pos look_ennemy(const char *, t_pos *, size_t);
 size_t count_neighbors(const char *, const t_player *);
 
 
