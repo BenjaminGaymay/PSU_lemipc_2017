@@ -14,7 +14,6 @@ void delete_player(t_player *player, t_id *id)
 	get_rights(id);
 	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 	map[CHARPOS(player->pos.x, player->pos.y)] = ' ';
-	printf("'%ld': je suis mort en [%d, %d]\n", player->team, player->pos.x, player->pos.y);
 	if (player->team != last_team_alive(map) - 48 && nb_team_alive(map) == 1) {
 		give_rights(id);
 		return (send_msg(HOST_ID, "quit", id));

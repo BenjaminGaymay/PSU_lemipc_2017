@@ -22,10 +22,10 @@ t_pos get_pos_from_msg(char *msg)
 
 void get_target(t_player *player, t_id *id, t_pos *target, const char *map)
 {
-	t_pos pos;
-	char msg[32];
+	t_pos pos = {MAP_SIZE / 2, MAP_SIZE / 2};
+	char msg[32] = {'\0'};
 
-	if (strncmp(id->msg.str, "target:", 7) == 0) {
+	if (id->msg.str && strncmp(id->msg.str, "target:", 7) == 0) {
 		pos = get_pos_from_msg(&id->msg.str[7]);
 		memcpy(&player->target, &pos, sizeof(pos));
 		return;

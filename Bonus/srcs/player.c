@@ -27,8 +27,6 @@ int player_loop(t_player *player, t_id *id)
 		if (strcmp(id->msg.str, "quit") == 0)
 			return (EXIT);
 		get_rights(id);
-		if (i % 50 == 0)
-			printf("Player [%ld] alive : %d, %d -> %d, %d\n", player->team, player->pos.x, player->pos.y, player->target.x, player->target.y);
 		i++;
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		if (count_neighbors(map, player) >= 2)
