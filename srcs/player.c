@@ -9,8 +9,8 @@
 
 void move_player(char *map, t_player *player, const t_pos pos)
 {
-	if (map[CHARPOS(pos.x, pos.y)] == ' ' &&
-			pos.x < MAP_SIZE && pos.y < MAP_SIZE) {
+	if (pos.x < MAP_SIZE && pos.y < MAP_SIZE &&
+			map[CHARPOS(pos.x, pos.y)] == ' ') {
 		map[CHARPOS(player->pos.x, player->pos.y)] = ' ';
 		map[CHARPOS(pos.x, pos.y)] = player->team + 48;
 		player->pos.x = pos.x;
