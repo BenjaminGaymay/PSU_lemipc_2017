@@ -18,7 +18,6 @@ void delete_player(t_player *player, t_id *id)
 		give_rights(id);
 		return (send_msg(HOST_ID, "quit", id));
 	}
-	printf("je segfault last memeber\n");
 	give_rights(id);
 }
 

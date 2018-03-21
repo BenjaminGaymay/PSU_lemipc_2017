@@ -50,5 +50,5 @@ int player(const key_t key, const size_t team_number)
 	player = create_player(team_number, &id);
 	player_loop(&player, &id);
 	delete_player(&player, &id);
-	return (SUCCESS);
+	exit(SUCCESS);
 }
