@@ -18,13 +18,13 @@ int get_new_pos(int player, int target)
 
 t_pos find_new_pos(const char *map, t_pos *pos)
 {
-	if (map[CHARPOS(pos->x+1, pos->y)] == ' ')
+	if (pos->x + 1 < MAP_SIZE && map[CHARPOS(pos->x+1, pos->y)] == ' ')
 		pos->x++;
-	else if (map[CHARPOS(pos->x-1, pos->y)] == ' ')
+	else if (pos->x - 1 >= 0 && map[CHARPOS(pos->x-1, pos->y)] == ' ')
 		pos->x--;
-	else if ((map[CHARPOS(pos->x, pos->y+1)] == ' '))
+	else if (pos->y + 1 < MAP_SIZE && map[CHARPOS(pos->x, pos->y+1)] == ' ')
 		pos->y++;
-	else if ((map[CHARPOS(pos->x, pos->y-1)] == ' '))
+	else if (pos->y - 1 >= 0 && map[CHARPOS(pos->x, pos->y-1)] == ' ')
 		pos->y--;
 	return (*pos);
 }
