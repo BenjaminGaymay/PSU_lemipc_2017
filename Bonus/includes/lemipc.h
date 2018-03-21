@@ -36,7 +36,7 @@
 # define KEY_ERROR -1
 # define SHM_ERROR -1
 
-# define MAP_SIZE 30
+# define MAP_SIZE 500
 # define MALLOC_MAP (MAP_SIZE + 1) * MAP_SIZE
 
 # define CHARPOS(x, y) (x) + (y) * (MAP_SIZE + 1)
