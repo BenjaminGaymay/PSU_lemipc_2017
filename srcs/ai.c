@@ -9,9 +9,9 @@
 
 int get_new_pos(int player, int target)
 {
-	if (player < target)
+	if (player < target && player + 1 < MAP_SIZE)
 		return (player + 1);
-	else if (player > target)
+	else if (player > target && player - 1 >= 0)
 		return (player - 1);
 	return (player);
 }
