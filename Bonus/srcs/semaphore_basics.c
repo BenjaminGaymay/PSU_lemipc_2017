@@ -11,7 +11,7 @@ int get_rights(t_id *id)
 {
 	id->sops.sem_op = -1;
 	while (semctl(id->sem_id, 0, GETVAL) == 0)
-		usleep(100000);
+		usleep(10000);
 	semop(id->sem_id, &id->sops, 1);
 	return (SUCCESS);
 }

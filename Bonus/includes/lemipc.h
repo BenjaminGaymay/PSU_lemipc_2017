@@ -36,7 +36,7 @@
 # define KEY_ERROR -1
 # define SHM_ERROR -1
 
-# define MAP_SIZE 30
+# define MAP_SIZE 150
 # define MALLOC_MAP (MAP_SIZE + 1) * MAP_SIZE
 
 # define CHARPOS(x, y) (x) + (y) * (MAP_SIZE + 1)
@@ -49,7 +49,7 @@
 #define WIDTH 1920
 #define HEIGHT 1080
 #define CUBE_SIZE 0.5
-#define ARENA_SIZE 30
+#define ARENA_SIZE MAP_SIZE
 
 typedef struct s_pos {
 	int x;

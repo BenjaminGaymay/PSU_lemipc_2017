@@ -11,7 +11,7 @@ void init_window()
 	glLoadIdentity();
 	gluPerspective(70,(double)WIDTH/HEIGHT,1,1000);
 	glEnable(GL_DEPTH_TEST);
-	gluLookAt(10 , 30, 15, 0, 0, 0, 0, 0, 1);
+	gluLookAt(10 , ARENA_SIZE, ARENA_SIZE / 2, 0, 0, 0, 0, 0, 1);
 }
 
 void draw_arena()

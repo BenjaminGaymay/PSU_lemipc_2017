@@ -27,7 +27,7 @@ int quit_loop(t_id *id)
 int host_loop(t_id *id)
 {
 	char *map;
-
+	
 	init_window();
 	while (1) {
 		if (manage_event() == EXIT)
