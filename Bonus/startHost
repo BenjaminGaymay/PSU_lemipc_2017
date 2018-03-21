@@ -1,3 +1,5 @@
 #!/bin/bash
 
+make
 ./lemipc "$PWD" 1
+make fclean

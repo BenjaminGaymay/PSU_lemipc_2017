@@ -8,8 +8,6 @@ for i in {0..10}; do
     ./lemipc "$PWD" 2 &
 done
 
-##exit 0
-
 for i in {0..10}; do
     ./lemipc "$PWD" 3 &
 done
@@ -29,3 +27,5 @@ done
 for i in {0..10}; do
     ./lemipc "$PWD" 7 &
 done
+
+make fclean
