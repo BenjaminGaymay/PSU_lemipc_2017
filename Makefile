@@ -24,7 +24,7 @@ SRCS	= ./srcs/add_remove_player.c	\
 OBJS	= $(SRCS:.c=.o)
 
 CFLAGS = -I ./includes/
-CFLAGS += -W -Wall -Wextra
+CFLAGS += -W -Wall -Wextra -Wpedantic -pedantic
 
 all: $(NAME)
 

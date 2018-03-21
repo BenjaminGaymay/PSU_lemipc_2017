@@ -25,7 +25,6 @@ int init_lemipc(const char *path, size_t team_number)
 
 int main(const int ac, const char **av)
 {
-	srand(time(NULL));
 	if (ac == 2 && av[1] != NULL && (strcmp(av[1], "--help") == 0))
 		return print_help(SUCCESS);
 	else if (ac != 3 || av[1] == NULL || av[2] == NULL ||

@@ -16,16 +16,20 @@ void delete_player(t_player *player, t_id *id)
 	map[CHARPOS(player->pos.x, player->pos.y)] = ' ';
 	if (player->team != last_team_alive(map) - 48 && nb_team_alive(map) == 1) {
 		give_rights(id);
-		return (send_msg(HOST_ID, "quit", id));
+		send_msg(HOST_ID, "quit", id);
+		return;
 	}
 	give_rights(id);
 }
 
 void add_player(char *map, t_player *player, const size_t team_number)
 {
-	int x = rand() % MAP_SIZE;
-	int y = rand() % MAP_SIZE;
+	int x;
+	int y;
 
+	srand(time(NULL));
+	x = rand() % MAP_SIZE;
+	y = rand() % MAP_SIZE;
 	while (map[CHARPOS(x, y)] != ' ') {
 		x = rand() % MAP_SIZE;
 		y = rand() % MAP_SIZE;
