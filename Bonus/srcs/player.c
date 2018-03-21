@@ -48,9 +48,9 @@ int player(const key_t key, const size_t team_number)
 	id.sem_id = semget(key, 0, SHM_R | SHM_W);
 	id.msg_id = msgget(key, SHM_R | SHM_W);
 	id.sops.sem_num = 0;
-	id.sops.sem_flg = 0;
+	id.sops.sem_flg = IPC_NOWAIT;
 	player = create_player(team_number, &id);
 	player_loop(&player, &id);
 	delete_player(&player, &id);
-	exit(SUCCESS);
+	return (SUCCESS);
 }

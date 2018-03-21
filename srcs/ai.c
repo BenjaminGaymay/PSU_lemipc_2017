@@ -31,7 +31,7 @@ t_pos find_new_pos(const char *map, t_pos *pos)
 
 t_pos move_to(t_player *player, const char *map)
 {
-	t_pos npos = {NONE, NONE};
+	t_pos npos;
 
 	if (player->target.x == NONE || player->target.y == NONE)
 		return (player->pos);
@@ -56,8 +56,6 @@ t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 	int min = -1;
 	int dist;
 
-	if (!map)
-		return (ennemy);
 	for (size_t i = 0; map[i] ; i++) {
 		if (map[i] != ' '  && map[i] != '\n' && (size_t)(map[i] - 48) != team) {
 			pos.x = i % (MAP_SIZE + 1);
@@ -65,7 +63,7 @@ t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 			dist = manhattan_dist(&pos, p);
 			if (dist < min || min == -1) {
 				min = dist;
-				ennemy = pos;
+				memcpy(&ennemy, &pos, sizeof(pos));
 			}
 		}
 	}

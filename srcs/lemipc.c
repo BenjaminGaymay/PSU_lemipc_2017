@@ -12,6 +12,8 @@ int init_lemipc(const char *path, size_t team_number)
 	key_t key;
 	int shm_id;
 
+	if (team_number == 0)
+		return (ERROR);
 	key = ftok(path, 0);
 	if (key == KEY_ERROR)
 		return (print_error("Error : ftok failed", ERROR));

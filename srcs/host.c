@@ -50,7 +50,7 @@ int host(const key_t key)
 	id.sem_id = semget(key, 1, IPC_CREAT | SHM_R | SHM_W);
 	id.msg_id = msgget(key, IPC_CREAT | SHM_R | SHM_W);
 	id.sops.sem_num = 0;
-	id.sops.sem_flg = 0;
+	id.sops.sem_flg = IPC_NOWAIT;
 	create_map((char *)shmat(id.shm_id, NULL, SHM_R | SHM_W));
 	semctl(id.sem_id, 0, SETVAL, 1);
 	host_loop(&id);
