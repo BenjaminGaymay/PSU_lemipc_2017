@@ -72,27 +72,33 @@ t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 	return (ennemy);
 }
 
-static bool within_map(const t_pos pos, const int x, const int y)
+static size_t line_neighbors(const char *map, t_pos *pos, size_t team)
 {
-	return (x != pos.x && y != pos.y
-		&& x >= 0 && y >= 0
-		&& x < MAP_SIZE && y < MAP_SIZE);
+	size_t neighbors = 0;
+
+	for (int i = pos->x - 1; i <= pos->x + 1; i++) {
+		if (i >= 0 && i < MAP_SIZE &&
+			pos->y >= 0 && pos->y < MAP_SIZE &&
+			(size_t)(map[CHARPOS(i, pos->y)] - 48) != team &&
+			map[CHARPOS(i, pos->y)] != ' ' &&
+			map[CHARPOS(i, pos->y)] != '\n' &&
+			map[CHARPOS(i, pos->y)] != '\0')
+			neighbors++;
+	}
+	return (neighbors);
 }
 
 size_t count_neighbors(const char *map, const t_player *player)
 {
 	size_t neighbors = 0;
+	t_pos pos;
 
-	for (int x = player->pos.x - 1; x <= player->pos.x + 1; x++) {
-		for (int y = player->pos.y - 1; y <= player->pos.y + 1; y++) {
-			if (within_map(player->pos, x, y) &&
-				(size_t)(map[CHARPOS(x, y)] - 48) != player->team &&
-				map[CHARPOS(x, y)] != ' ' &&
-				map[CHARPOS(x, y)] != '\n' &&
-				map[CHARPOS(x, y)] != '\0') {
-				neighbors += 1;
-			}
-		}
-	}
+	pos.x = player->pos.x;
+	pos.y = player->pos.y - 1;
+	neighbors += line_neighbors(map, &pos, player->team);
+	pos.y = player->pos.y;
+	neighbors += line_neighbors(map, &pos, player->team);
+	pos.y = player->pos.y + 1;
+	neighbors += line_neighbors(map, &pos, player->team);
 	return (neighbors);
 }
