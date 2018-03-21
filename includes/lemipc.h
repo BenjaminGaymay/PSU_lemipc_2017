@@ -40,18 +40,11 @@
 # define NONE -1
 
 # define HOST_ID 255
-# define MSG_COPY 040000
 
 typedef struct s_pos {
 	int x;
 	int y;
 } t_pos;
-
-typedef struct s_player {
-	t_pos pos;
-	t_pos target;
-	size_t team;
-} t_player;
 
 typedef struct s_msg {
 	long int mtype;
@@ -65,6 +58,12 @@ typedef struct s_id {
 	struct sembuf sops;
 	t_msg msg;
 } t_id;
+
+typedef struct s_player {
+	t_pos pos;
+	t_pos target;
+	size_t team;
+} t_player;
 
 /*
 ** manage_map

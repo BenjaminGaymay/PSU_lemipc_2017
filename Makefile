@@ -7,7 +7,7 @@
 
 NAME	= lemipc
 
-CC	= gcc -g3
+CC	= gcc
 
 RM	= rm -f
 
@@ -24,7 +24,7 @@ SRCS	= ./srcs/add_remove_player.c	\
 OBJS	= $(SRCS:.c=.o)
 
 CFLAGS = -I ./includes/
-CFLAGS += -W -Wall -Wextra -Wpedantic -pedantic
+CFLAGS += -W -Wall -Wextra
 
 all: $(NAME)
 

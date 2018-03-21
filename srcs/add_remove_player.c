@@ -22,24 +22,27 @@ void delete_player(t_player *player, t_id *id)
 	give_rights(id);
 }
 
-void add_player(char *map, t_player *player, const size_t team_number)
+void add_player(char *map, t_player *player)
 {
-	int x;
-	int y;
+	int x = player->pos.x;
+	int y = player->pos.y;
 
-	srand(time(NULL));
-	x = rand() % MAP_SIZE;
-	y = rand() % MAP_SIZE;
 	while (map[CHARPOS(x, y)] != ' ') {
 		x = rand() % MAP_SIZE;
 		y = rand() % MAP_SIZE;
 	}
+	map[CHARPOS(x, y)] = player->team + 48;
 	player->pos.x = x;
 	player->pos.y = y;
+}
+
+void init_player(t_player *player, const size_t team_number)
+{
+	player->pos.x = rand() % MAP_SIZE;
+	player->pos.y = rand() % MAP_SIZE;
 	player->target.x = NONE;
 	player->target.y = NONE;
 	player->team = team_number;
-	map[CHARPOS(x, y)] = team_number + 48;
 }
 
 t_player create_player(const size_t team_number, t_id *id)
@@ -47,9 +50,11 @@ t_player create_player(const size_t team_number, t_id *id)
 	t_player player;
 	char *map;
 
+	srand(time(NULL));
+	init_player(&player, team_number);
 	get_rights(id);
 	map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
-	add_player(map, &player, team_number);
+	add_player(map, &player);
 	give_rights(id);
 	return (player);
 }

@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2018
+** PSU_lemipc_2017
+** File description:
+** graphics
+*/
+
 #include "lemipc.h"
 
 void init_window()
@@ -83,14 +90,12 @@ void draw_array(const char *array)
 	for (int y = ARENA_SIZE - 1 ; y >= 0 ; y--) {
 		for (int x = ARENA_SIZE ; x >= -1 ; x--) {
 			switch(array[CHARPOS(x, y)]) {
-				case '0':
-					draw_cube(x, y, CUBE_SIZE, 230, 25, 75); break;
 				case '1':
 					draw_cube(x, y, CUBE_SIZE, 0, 255, 0); break;
 				case '2':
 					draw_cube(x, y, CUBE_SIZE, 255, 0, 255); break;
 				case '3':
-					draw_cube(x, y, CUBE_SIZE, 70, 240, 240); break;
+					draw_cube(x, y, CUBE_SIZE, 200, 200, 200); break;
 				case '4':
 					draw_cube(x, y, CUBE_SIZE, 0, 255, 255); break;
 				case '5':
@@ -100,9 +105,9 @@ void draw_array(const char *array)
 				case '7':
 					draw_cube(x, y, CUBE_SIZE, 245, 130, 48); break;
 				case '8':
-					draw_cube(x, y, CUBE_SIZE, 0, 127, 127); break;
+					draw_cube(x, y, CUBE_SIZE, 255, 0, 0); break;
 				case '9':
-					draw_cube(x, y, CUBE_SIZE, 128, 0, 0); break;
+					draw_cube(x, y, CUBE_SIZE, 0, 0, 255); break;
 			}
 		}
 	}

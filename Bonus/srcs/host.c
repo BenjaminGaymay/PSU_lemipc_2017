@@ -7,6 +7,31 @@
 
 #include "lemipc.h"
 
+char *get_color_from_team(int team)
+{
+	switch(team) {
+		case 1:
+			return ("GREEN");
+		case 2:
+			return ("MAGENTA");
+		case 3:
+			return ("GREY");
+		case 4:
+			return ("GREEN");
+		case 5:
+			return ("YELLOW");
+		case 6:
+			return ("PURPLE");
+		case 7:
+			return ("ORANGE");
+		case 8:
+			return ("RED");
+		case 9:
+			return ("BLUE");
+	}
+	return (NULL);
+}
+
 int quit_loop(t_id *id)
 {
 	char *map;
@@ -24,7 +49,8 @@ int quit_loop(t_id *id)
 		give_rights(id);
 		usleep(10000);
 	}
-	printf("Team '%d' win ! \n", last_team);
+	give_rights(id);
+	printf("Team %s win ! \n", get_color_from_team(last_team));
 	return (SUCCESS);
 }
 
@@ -36,13 +62,11 @@ int host_loop(t_id *id)
 	while (1) {
 		if (manage_event() == EXIT)
 			return (quit_loop(id));
-		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		clear_window();
 		draw_arena();
 		draw_array(map);
 		refresh_window();
-		give_rights(id);
 		receive_message(id->msg_id, &id->msg, HOST_ID);
 		if (strcmp(id->msg.str, "quit") == 0)
 			return (quit_loop(id));

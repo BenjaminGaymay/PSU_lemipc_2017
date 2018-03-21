@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./lepic "$PWD" 1 &
+
 for i in {0..10}; do
     ./lemipc "$PWD" 1 &
 done
@@ -12,18 +14,32 @@ for i in {0..10}; do
     ./lemipc "$PWD" 3 &
 done
 
+
 for i in {0..10}; do
     ./lemipc "$PWD" 4 &
 done
+
 
 for i in {0..10}; do
     ./lemipc "$PWD" 5 &
 done
 
+
 for i in {0..10}; do
     ./lemipc "$PWD" 6 &
 done
 
+
 for i in {0..10}; do
     ./lemipc "$PWD" 7 &
+done
+
+
+for i in {0..10}; do
+    ./lemipc "$PWD" 8 &
+done
+
+
+for i in {0..10}; do
+    ./lemipc "$PWD" 9 &
 done

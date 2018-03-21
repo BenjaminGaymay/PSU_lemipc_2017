@@ -1,18 +1,25 @@
+##
+## EPITECH PROJECT, 2018
+## PSU_lemipc_2017
+## File description:
+## Makefile
+##
+
 NAME	= lemipc
 
 CC	= gcc -lSDLmain -lSDL -lGL -lGLU
 
 RM	= rm -f
 
-SRCS	= ./srcs/graphics.c \
-	  ./srcs/host.c \
-	  ../srcs/add_remove_player.c \
-	  ../srcs/ai.c \
-	  ../srcs/basics.c \
-	  ../srcs/lemipc.c \
-	  ../srcs/manage_map.c \
-	  ../srcs/player.c \
-	  ../srcs/semaphore_basics.c \
+SRCS	= ./srcs/graphics.c		\
+	  ./srcs/host.c			\
+	  ../srcs/add_remove_player.c	\
+	  ../srcs/ai.c			\
+	  ../srcs/basics.c		\
+	  ../srcs/lemipc.c		\
+	  ../srcs/manage_map.c		\
+	  ../srcs/player.c		\
+	  ../srcs/semaphore_basics.c	\
 	  ../srcs/strategy.c
 
 OBJS	= $(SRCS:.c=.o)

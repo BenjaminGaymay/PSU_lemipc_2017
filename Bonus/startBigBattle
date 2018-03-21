@@ -1,6 +1,8 @@
 #!/bin/bash
 
-for i in {0..100}; do
+./lepic "$PWD" 1 &
+
+for i in {0..10000}; do
     ./lemipc "$PWD" 1 &
     ./lemipc "$PWD" 2 &
     ./lemipc "$PWD" 3 &

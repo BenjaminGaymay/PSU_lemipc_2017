@@ -24,6 +24,7 @@ int quit_loop(t_id *id)
 		give_rights(id);
 		usleep(10000);
 	}
+	give_rights(id);
 	printf("Team '%d' win ! \n", last_team);
 	return (SUCCESS);
 }
@@ -34,10 +35,8 @@ int host_loop(t_id *id)
 
 	while (1) {
 		system("clear");
-		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		show_map(map);
-		give_rights(id);
 		receive_message(id->msg_id, &id->msg, HOST_ID);
 		if (strcmp(id->msg.str, "quit") == 0)
 			return (quit_loop(id));
