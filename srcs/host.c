@@ -57,5 +57,5 @@ int host(const key_t key)
 	msgctl(id.msg_id, IPC_RMID, NULL);
 	semctl(id.sem_id, IPC_RMID, 0, NULL);
 	shmctl(id.shm_id, IPC_RMID, NULL);
-	exit(SUCCESS); // POURQUOI ?!
+	return (SUCCESS);
 }

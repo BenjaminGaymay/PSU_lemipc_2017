@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SIZE="$(expr "$1" "*" "$(expr "$1" "+" "1")")"
 TMP="$(ipcs | tr '\n' '/')"
 
 IFS='/' read -a IPCS <<< "$TMP"
@@ -15,7 +14,7 @@ for line in "${IPCS[@]}"; do
     if [ "$SEMID" == '1' -a "$TO_DEL" != "" ]; then
 	echo "Remove sem : $TO_DEL"
 	ipcrm sem "$TO_DEL"
-    elif [ "$SHMID" == '1' -a "$(echo $line | cut -d ' ' -f5)" == "$SIZE" ]; then
+    elif [ "$SHMID" == '1' -a "$(echo $line | cut -d ' ' -f5)" == "930" ]; then
 	echo "Remove shm : $TO_DEL"
 	ipcrm shm "$TO_DEL"
     elif [ "$MSGID" == '1' -a "$TO_DEL" != "" ]; then
