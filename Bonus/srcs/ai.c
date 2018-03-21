@@ -84,7 +84,7 @@ static bool within_map(const t_pos pos, const int x, const int y)
 {
 	return (x != pos.x && y != pos.y
 		&& x >= 0 && y >= 0
-		&& x < MAP_SIZE && y < MAP_SIZE);
+		&& x <= MAP_SIZE && y <= MAP_SIZE);
 }
 
 size_t count_neighbors(const char *map, const t_player *player)
@@ -96,7 +96,8 @@ size_t count_neighbors(const char *map, const t_player *player)
 			if (within_map(player->pos, x, y) &&
 				(size_t)(map[CHARPOS(x, y)] - 48) != player->team &&
 				map[CHARPOS(x, y)] != ' ' &&
-				map[CHARPOS(x, y)] != '\n') {
+				map[CHARPOS(x, y)] != '\n' &&
+				map[CHARPOS(x, y)] != '\0') {
 				neighbors += 1;
 			}
 		}
