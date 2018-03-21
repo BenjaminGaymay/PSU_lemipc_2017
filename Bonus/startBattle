@@ -27,5 +27,3 @@ done
 for i in {0..10}; do
     ./lemipc "$PWD" 7 &
 done
-
-make fclean

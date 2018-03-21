@@ -3,7 +3,7 @@
 if [ "$1" != "" ]; then
     SIZE="$(expr "$1" "*" "$(expr "$1" "+" "1")")"
 else
-    SIZE="0"
+    SIZE="930"
 fi
 
 TMP="$(ipcs | tr '\n' '/')"

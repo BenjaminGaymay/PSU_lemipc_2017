@@ -10,17 +10,21 @@
 int quit_loop(t_id *id)
 {
 	char *map;
+	int last_team = 0;
 
 	while (1) {
 		get_rights(id);
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
 		if (nb_team_alive(map) == 0)
 			break ;
-		else
-			send_msg(last_team_alive(map) - 48, "quit", id);
+		else {
+			last_team = last_team_alive(map) - 48;
+			send_msg(last_team, "quit", id);
+		}
 		give_rights(id);
 		usleep(10000);
 	}
+	printf("Team '%d' win ! \n", last_team);
 	return (SUCCESS);
 }
 
