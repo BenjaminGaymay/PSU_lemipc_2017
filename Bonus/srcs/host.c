@@ -36,6 +36,7 @@ int quit_loop(t_id *id)
 {
 	char *map;
 	int last_team = 0;
+	char *winner;
 
 	while (1) {
 		get_rights(id);
@@ -50,7 +51,13 @@ int quit_loop(t_id *id)
 		usleep(10000);
 	}
 	give_rights(id);
-	printf("Team %s win ! \n", get_color_from_team(last_team));
+	asprintf(&winner, "Team %s win !", get_color_from_team(last_team));
+	clear_window();
+	refresh_window();
+	print_text(0, -100, (SDL_Color){255, 255, 255, 127}, winner);
+	refresh_window();
+	sleep(5);
+	delete_window();
 	return (SUCCESS);
 }
 

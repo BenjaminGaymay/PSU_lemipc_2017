@@ -7,7 +7,7 @@
 
 NAME	= lemipc
 
-CC	= gcc -lSDLmain -lSDL -lGL -lGLU
+CC	= gcc -lSDLmain -lSDL -lSDL_ttf -lGL -lGLU -g3
 
 RM	= rm -f
 

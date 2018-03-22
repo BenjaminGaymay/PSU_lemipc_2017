@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./lepic "$PWD" 1 &
+./lemipc "$PWD" 1 &
 
 for i in {0..10}; do
     ./lemipc "$PWD" 1 &

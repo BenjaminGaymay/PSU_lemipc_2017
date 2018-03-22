@@ -7,6 +7,8 @@
 
 #pragma once
 
+ #define _GNU_SOURCE
+
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -22,8 +24,10 @@
 #include <sys/msg.h>
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -135,4 +139,6 @@ int manage_event();
 void clear_window();
 void draw_arena();
 void init_window();
+void delete_window();
 void refresh_window();
+void print_text(float, float, SDL_Color, const char *);
