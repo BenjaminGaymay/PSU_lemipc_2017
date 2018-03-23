@@ -7,28 +7,6 @@
 
 #include "lemipc.h"
 
-int get_new_pos(int player, int target)
-{
-	if (player < target && player + 1 < MAP_SIZE)
-		return (player + 1);
-	else if (player > target && player - 1 >= 0)
-		return (player - 1);
-	return (player);
-}
-
-t_pos find_new_pos(const char *map, t_pos *pos)
-{
-	if (pos->x + 1 < MAP_SIZE && map[CHARPOS(pos->x+1, pos->y)] == ' ')
-		pos->x++;
-	else if (pos->x - 1 >= 0 && map[CHARPOS(pos->x-1, pos->y)] == ' ')
-		pos->x--;
-	else if (pos->y + 1 < MAP_SIZE && map[CHARPOS(pos->x, pos->y+1)] == ' ')
-		pos->y++;
-	else if (pos->y - 1 >= 0 && map[CHARPOS(pos->x, pos->y-1)] == ' ')
-		pos->y--;
-	return (*pos);
-}
-
 t_pos move_to(t_player *player, const char *map)
 {
 	t_pos npos;
@@ -44,11 +22,6 @@ t_pos move_to(t_player *player, const char *map)
 	return (npos);
 }
 
-size_t manhattan_dist(t_pos *p1, t_pos *p2)
-{
-	return abs(p1->x + p2->x) - abs(p1->y + p2->y);
-}
-
 t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 {
 	t_pos pos;
@@ -57,7 +30,8 @@ t_pos look_ennemy(const char *map, t_pos *p, size_t team)
 	int dist;
 
 	for (size_t i = 0; map[i] ; i++) {
-		if (map[i] != ' '  && map[i] != '\n' && (size_t)(map[i] - 48) != team) {
+		if (map[i] != ' '  && map[i] != '\n' &&
+			(size_t)(map[i] - 48) != team) {
 			pos.x = i % (MAP_SIZE + 1);
 			pos.y = i / (MAP_SIZE + 1);
 			dist = manhattan_dist(&pos, p);
