@@ -136,9 +136,9 @@ void get_target(t_player *, t_id *, t_pos *, const char *);
 */
 void draw_array(const char *);
 int manage_event();
-void clear_window();
+int clear_window();
 void draw_arena();
 void init_window();
 void delete_window();
-void refresh_window();
+void refresh_window(int);
 void print_text(float, float, SDL_Color, const char *);

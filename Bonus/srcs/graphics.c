@@ -144,17 +144,25 @@ int manage_event()
 	return (SUCCESS);
 }
 
-void clear_window()
+int clear_window()
 {
+	int prev_loop = SDL_GetTicks();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
     	glLoadIdentity();
+	return (prev_loop);
 }
 
-void refresh_window()
+void refresh_window(int prev_loop)
 {
+	int ellapsed_time = SDL_GetTicks() - prev_loop;
+
 	glFlush();
     	SDL_GL_SwapBuffers();
+
+        if (ellapsed_time < 10)
+            SDL_Delay(10 - ellapsed_time);
 }
 
 
@@ -176,19 +184,19 @@ void print_text(float x, float y, SDL_Color color, const char *string)
 	glEnable(GL_BLEND);
     	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glTranslatef(x, y, -10);
-
+	glTranslatef(x, y, -30);
+	glRotated(70, 1, 0, 0);
 	glEnable(GL_TEXTURE_2D);
     	glBindTexture(GL_TEXTURE_2D, tex);
     	glBegin(GL_QUADS);
-        	glTexCoord2f(0.0f, 0.0f); glVertex2f(-80.0f, -60.0f);
-        	glTexCoord2f(1.0f, 0.0f); glVertex2f(80.0f, -60.0f);
-        	glTexCoord2f(1.0f, 1.0f); glVertex2f(80.0f, 60.0f);
-        	glTexCoord2f(0.0f, 1.0f); glVertex2f(-80.0f, 60.0f);
+        	glTexCoord2f(0.0f, 0.0f); glVertex2f(-60.0f, -30.0f);
+        	glTexCoord2f(1.0f, 0.0f); glVertex2f(60.0f, -30.0f);
+        	glTexCoord2f(1.0f, 1.0f); glVertex2f(60.0f, 30.0f);
+        	glTexCoord2f(0.0f, 1.0f); glVertex2f(-60.0f, 30.0f);
     	glEnd();
     	glDisable(GL_TEXTURE_2D);
 
   	TTF_CloseFont(font);
   	SDL_FreeSurface(text);
-	glTranslatef(-x, -y, 10);
+	glTranslatef(-x, -y, 30);
 }

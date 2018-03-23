@@ -53,9 +53,9 @@ int quit_loop(t_id *id)
 	give_rights(id);
 	asprintf(&winner, "Team %s win !", get_color_from_team(last_team));
 	clear_window();
-	refresh_window();
+	refresh_window(0);
 	print_text(0, -100, (SDL_Color){255, 255, 255, 127}, winner);
-	refresh_window();
+	refresh_window(0);
 	sleep(5);
 	delete_window();
 	return (SUCCESS);
@@ -64,20 +64,20 @@ int quit_loop(t_id *id)
 int host_loop(t_id *id)
 {
 	char *map;
+	int prev_loop;
 
 	init_window();
 	while (1) {
+		prev_loop = clear_window();
 		if (manage_event() == EXIT)
 			return (quit_loop(id));
 		map = (char *)shmat(id->shm_id, NULL, SHM_R | SHM_W) + 1;
-		clear_window();
 		draw_arena();
 		draw_array(map);
-		refresh_window();
+		refresh_window(prev_loop);
 		receive_message(id->msg_id, &id->msg, HOST_ID);
 		if (strcmp(id->msg.str, "quit") == 0)
 			return (quit_loop(id));
-		usleep(100000);
 	}
 	return (SUCCESS);
 }
