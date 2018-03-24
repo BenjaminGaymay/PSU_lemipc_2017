@@ -20,7 +20,8 @@ SRCS	= ./srcs/graphics.c		\
 	  ../srcs/manage_map.c		\
 	  ../srcs/player.c		\
 	  ../srcs/semaphore_basics.c	\
-	  ../srcs/strategy.c
+	  ../srcs/strategy.c		\
+	  ../srcs/position.c
 
 OBJS	= $(SRCS:.c=.o)
 

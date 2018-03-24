@@ -116,3 +116,10 @@ size_t count_neighbors(const char *, const t_player *);
 ** strategy
 */
 void get_target(t_player *, t_id *, t_pos *, const char *);
+
+/*
+** position
+*/
+size_t manhattan_dist(t_pos *, t_pos *);
+int get_new_pos(int, int);
+t_pos find_new_pos(const char *, t_pos *);

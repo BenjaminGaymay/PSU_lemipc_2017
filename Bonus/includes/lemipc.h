@@ -7,7 +7,7 @@
 
 #pragma once
 
- #define _GNU_SOURCE
+#define _GNU_SOURCE
 
 #include <string.h>
 #include <stdlib.h>
@@ -142,3 +142,10 @@ void init_window();
 void delete_window();
 void refresh_window(int);
 void print_text(float, float, SDL_Color, const char *);
+
+/*
+** position
+*/
+size_t manhattan_dist(t_pos *, t_pos *);
+int get_new_pos(int, int);
+t_pos find_new_pos(const char *, t_pos *);
